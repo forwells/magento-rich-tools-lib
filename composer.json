@@ -11,6 +11,7 @@
         }
     ],
     "minimum-stability": "dev",
+    "license": "MIT",
     "require": {},
     "autoload": {
         "psr-4": {
