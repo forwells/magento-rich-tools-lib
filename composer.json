@@ -1,0 +1,21 @@
+{
+    "name": "tommy/magento-tools",
+    "type": "lib",
+    "require-dev": {
+        "symfony/var-dumper": "4.4.x-dev"
+    },
+    "authors": [
+        {
+            "name": "tommy",
+            "email": "forwelll@163.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Tools\\": "src/Tools"
+        },
+        "files": ["src/shared/global.php"]
+    }
+}
