@@ -1,5 +1,5 @@
 {
-    "name": "tommy/magento-tools",
+    "name": "hoalook/magento-tools",
     "type": "lib",
     "require-dev": {
         "symfony/var-dumper": "4.4.x-dev"
