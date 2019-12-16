@@ -11,12 +11,6 @@ class Block extends \Tools\Base
 		}else{
 			throw new Exception("Please Specified The Template You Want To Use!", 1);
 		}
-<<<<<<< HEAD
 		
 	}
-=======
-	}
-
-	
->>>>>>> ignore .gitee
 }

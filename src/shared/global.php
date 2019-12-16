@@ -2,14 +2,9 @@
 /**
  * author tommy
  */
-
-<<<<<<< HEAD
-
-=======
 /**
  * d: 打印美化 
  */
->>>>>>> ignore .gitee
 if(!function_exists('d')){
 	function d($needle = ""){
 		echo "<pre>";
