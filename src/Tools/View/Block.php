@@ -21,4 +21,9 @@ class Block extends \Tools\Base
 
 		return $cmsBlock;
 	}
+
+	public function getMiniCart()
+	{
+		$cartData = $this->manager;
+	}
 }

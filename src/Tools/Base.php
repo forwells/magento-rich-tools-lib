@@ -28,4 +28,9 @@ class Base{
 	{
 		return $this->manager->get('Magento\Store\Model\StoreManagerInterface');
 	}
+
+	public function getQuote()
+	{
+		return $this->manager->get('');
+	}
 }
