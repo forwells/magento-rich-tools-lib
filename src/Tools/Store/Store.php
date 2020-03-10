@@ -33,4 +33,9 @@ class Store extends \Tools\Base
 	{
 		return $this->manager->get('Magento\Store\Model\StoreManagerInterface');
 	}
+
+	public function getMediaUrl()
+	{
+		return $this->getMagentoStore()->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+	}
 }

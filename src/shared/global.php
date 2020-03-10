@@ -177,51 +177,33 @@ if(!function_exists('cms_block')){
 }
 
 /**	
- * minicart
+ * catalog_url
  */
-
-if(!function_exists('minicart')){
-	function minicart()
+if(!function_exists('catalog_url')){
+	function catalog_url()
 	{
-		$view = new \Tools\View\Block;
-		return $view->getMiniCart();
+		return store()->getMediaUrl() . 'catalog/product';
 	}
 }
 
 /**	
- * json reponse helper
+ * get_helper
  */
-
-if(!function_exists('json_response')){
-	function json_response($data = []){
-		$common = new \Tools\Helper\Common;
-		$json_factory = $common->helper('\Magento\Framework\Controller\Result\JsonFactory');
-		// d($data);die;
-		return $json_factory->create()->setData(['aaa']);
-	}
-}
-
-/**
- * get specified helper
- */
-
 if(!function_exists('get_helper')){
-	function get_helper($className = ""){
-		$common = new \Tools\Helper\Common;
-		return $common->helper($className);
+	function get_helper($helper_class)
+	{
+		$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+		return $objectManager->get($helper_class);
 	}
 }
 
-/**	get media url */
-if(!function_exists('media_url()')){
-	function media_url(){
-		$common = new \Tools\Helper\Common;
-		return $common->helper('Magento\Store\Model\StoreManagerInterface')->getStore()->getBaseUrl(Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
-	}
-}
-
-if(!function_exists('catalog_url()')){
-	function catalog_url(){
-		return media_url() . 'catalog/product';
+/**	
+ * object_manager
+ */
+if(!function_exists('class_manager')){
+	function class_manager()
+	{
+		$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+		return $objectManager;
 	}
 }
