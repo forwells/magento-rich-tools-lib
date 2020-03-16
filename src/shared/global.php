@@ -208,7 +208,6 @@ if(!function_exists('class_manager')){
 	}
 }
 
-
 /**	
  * product_advance
  */
