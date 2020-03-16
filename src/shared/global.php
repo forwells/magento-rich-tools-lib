@@ -207,3 +207,59 @@ if(!function_exists('class_manager')){
 		return $objectManager;
 	}
 }
+
+
+/**	
+ * product_advance
+ */
+if(!function_exists('product_advance')){
+	function product_advance($sku){
+		$sku = trim($sku);
+		$sql = "select available_stock,presell_status,presell_residue_num,presell_create_time,presell_end_time from fa_item WHERE sku='{$sku}' and is_del = 1;";
+		$result = class_manager()->get(\Tools\Database\Glass::class)->query($sql);
+		$qty = 0;
+		$status = 0;//0售罄，1在售，2预售
+		if(!empty($result->row)){
+			$row = $result->row;
+			if($row['available_stock'] <= 0){
+				$presell_create_time = strtotime($row['presell_create_time']);
+				$presell_end_time = strtotime($row['presell_end_time']);
+				if($row['presell_status'] == 1 && $row['presell_residue_num'] > 0 && $presell_create_time < time() && $presell_end_time > time()){
+					$status = 2;
+					$qty = $row['presell_residue_num'];
+				}
+			}else{
+				$status = 1;
+				$qty = $row['available_stock'];
+			}
+		}
+		return array('status'=>$status,'true_qty'=>$qty);
+	}
+}
+
+/**	
+ * browse_info
+ */
+if(!function_exists('browse_info')){
+	function browse_info() {
+		if (!empty($_SERVER['HTTP_USER_AGENT'])) {
+			$br = $_SERVER['HTTP_USER_AGENT'];
+			if (preg_match('/MSIE/i', $br)) {
+				$br = 'MSIE';
+			} else if (preg_match('/Firefox/i', $br)) {
+				$br = 'Firefox';
+			} else if (preg_match('/Chrome/i', $br)) {
+				$br = 'Chrome';
+			} else if (preg_match('/Safari/i', $br)) {
+				$br = 'Safari';
+			} else if (preg_match('/Opera/i', $br)) {
+				$br = 'Opera';
+			} else {
+				$br = 'Other';
+			}
+			return $br;
+		} else {
+			return 'unknow';
+		}
+	}
+}
