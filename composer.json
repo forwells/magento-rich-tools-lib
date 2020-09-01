@@ -12,7 +12,9 @@
     ],
     "minimum-stability": "dev",
     "license": "MIT",
-    "require": {},
+    "require": {
+        "mobiledetect/mobiledetectlib": "^2.8"
+    },
     "autoload": {
         "psr-4": {
             "Tools\\": "src/Tools"
