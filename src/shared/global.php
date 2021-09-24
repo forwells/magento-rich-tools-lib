@@ -10,6 +10,7 @@ if(!function_exists('d')){
 		echo "<pre>";
 		var_dump($needle);
 		echo "</pre>";
+		die;
 	}
 }
 /**
@@ -18,9 +19,9 @@ if(!function_exists('d')){
 if(!function_exists('console_log')){
 	function console_log($params = ""){
 		if(!$params){
-			return "<script>console.log('debug params is null or disabled!')</script>";
+			echo "<script>console.log('debug params is null or disabled!')</script>";
 		}
-		return "<script>console.log(".$params.")</script>";
+		echo "<script>console.log(".$params.")</script>";
 	}
 }
 /**
@@ -209,7 +210,7 @@ if(!function_exists('class_manager')){
 }
 
 /**	
- * product_advance
+ * product_advance: 遗留
  */
 if(!function_exists('product_advance')){
 	function product_advance($sku){
