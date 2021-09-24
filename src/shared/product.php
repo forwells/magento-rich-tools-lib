@@ -11,7 +11,7 @@
  * $type 获取类型: a 取值 b 取聚合值(适用multi select 属性)
  */
 if (!function_exists('spg')) {
-    function spt($product = null, $attr = null, $type = 'a')
+    function spg($product = null, $attr = null, $type = 'a')
     {
         if($product && $attr){
             if($type == 'a'){

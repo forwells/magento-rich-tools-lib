@@ -19,6 +19,6 @@
         "psr-4": {
             "Tools\\": "src/Tools"
         },
-        "files": ["src/shared/global.php"]
+        "files": ["src/shared/global.php", "src/shared/product.php"]
     }
 }
