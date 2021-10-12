@@ -20,12 +20,6 @@
         "psr-4": {
             "Tools\\": "src/Tools"
         },
-        "files": [
-            "src/shared/global.php", 
-            "src/shared/product.php",
-            "src/shared/catalog.php",
-            "src/shared/checkout.php",
-            "src/shared/cart.php"
-        ]
+        "files": ["src/shared/global.php", "src/shared/product.php", "src/shared/cart.php", "src/shared/catalog.php", "src/shared/checkout.php"]
     }
 }
