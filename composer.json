@@ -1,5 +1,6 @@
 {
     "name": "hoalook/magento-tools",
+    "description": "magento2 quick tool lib normal use",
     "type": "lib",
     "require-dev": {
         "symfony/var-dumper": "4.4.x-dev"
@@ -19,6 +20,12 @@
         "psr-4": {
             "Tools\\": "src/Tools"
         },
-        "files": ["src/shared/global.php", "src/shared/product.php"]
+        "files": [
+            "src/shared/global.php", 
+            "src/shared/product.php",
+            "src/shared/catalog.php",
+            "src/shared/checkout.php",
+            "src/shared/cart.php"
+        ]
     }
 }
