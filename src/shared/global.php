@@ -3,6 +3,7 @@
 /**
  * author tommy
  */
+
 /**
  * d: 打印美化 
  */
@@ -256,7 +257,7 @@ if (!function_exists('product_advance')) {
 }
 
 /**	
- * browse_info
+ * browser info
  */
 if (!function_exists('browse_info')) {
 	function browse_info()
@@ -279,6 +280,100 @@ if (!function_exists('browse_info')) {
 			return $br;
 		} else {
 			return 'unknow';
+		}
+	}
+}
+
+if (!function_exists('ts_price')) {
+	/**
+	 * 价格转换
+	 */
+	function ts_price($price = 0, $from = 'USD', $to = '', $type = 1)
+	{
+		$currency_processor = class_manager()->get(\Magento\Directory\Model\CurrencyFactory::class)->create();
+
+		$rate = $currency_processor->load($from)->getAnyRate($to);
+
+		$converted_price = $price * $rate;
+		return pf($converted_price);
+	}
+}
+
+if (!function_exists('get_symbol')) {
+	function get_symbol($code = null)
+	{
+		$symbol = '$';
+		if ($code) {
+			$currency = class_manager()->get(\Magento\Directory\Model\CurrencyFactory::class)->create()->load($code);
+			$symbol = $currency->getCurrencySymbol();
+		}
+
+		return $symbol;
+	}
+}
+
+if (!function_exists('current_store')) {
+	/**
+	 * 获取当前请求的商店
+	 *
+	 * @return array
+	 */
+	function current_store($store_code = 'default')
+	{
+		$store_instance = store()->getStoreManager()->getStores(true, true);
+		if (isset($store_instance[$store_code]) && $store_instance[$store_code]) {
+			$store_id = $store_instance[$store_code]->getId();
+		} else {
+			$store_id = 1;
+		}
+
+		$current_store = store()->getStoreManager()->getStore($store_id);
+		$current_code = $current_store->getCurrentCurrency()->getCode();
+
+		return [
+			"store" => $current_store,
+			"code" => $current_code
+		];
+	}
+}
+
+if (!function_exists('ass_unique')) {
+	/** 二维数组去重 */
+	function ass_unique($arr = [])
+	{
+		$result = array_map('unserialize', array_unique(array_map('serialize', $arr)));
+
+		return $result;
+	}
+}
+
+if (!function_exists('logger')) {
+	function logger($info = null, $type = 'info', $filename = 'common.log')
+	{
+		$path = BP . '/var/log/' . $filename;
+		$file_driver = class_manager()->get(\Magento\Framework\Filesystem\Driver\File::class);
+		$file_system = class_manager()->get(\Magento\Framework\Filesystem::class);
+		$directory_list = class_manager()->get(\Magento\Framework\App\Filesystem\DirectoryList::class);
+		$log_dir = $file_system->getDirectoryWrite($directory_list::LOG);
+		if (!$file_driver->isExists($path)) {
+			$log_dir->writeFile($filename, "");
+		}
+		if ($info) {
+			$writer = new \Zend\Log\Writer\Stream($path);
+			$logger = new \Zend\Log\Logger();
+			$logger->addWriter($writer);
+			switch ($type) {
+				case 'info':
+					$logger->info($info);
+					break;
+				case 'error':
+					$logger->err($info);
+					break;
+
+				default:
+					$logger->info($info);
+					break;
+			}
 		}
 	}
 }
