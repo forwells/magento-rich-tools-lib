@@ -377,3 +377,114 @@ if (!function_exists('logger')) {
 		}
 	}
 }
+
+if (!function_exists('env')) {
+	function env($key = '')
+	{
+		$value = '';
+
+		$config_loader = class_manager()->get(\Magento\Framework\App\DeploymentConfig::class);
+
+		if ($key) {
+			$value = $config_loader->get($key);
+		}
+
+		return $value;
+	}
+}
+
+if (!function_exists('customer_session')) {
+	function customer_session()
+	{
+		return class_manager()->get(\Magento\Customer\Model\SessionFactory::class)->create();
+	}
+}
+
+if (!function_exists('wishlist_resource')) {
+	function wishlist_resource()
+	{
+		return class_manager()->get(\Magento\Wishlist\Model\ResourceModel\Wishlist::class);
+	}
+}
+
+if (!function_exists('wishlist_items')) {
+	function wishlist_items()
+	{
+		$wishlist = class_manager()->get(\Magento\Wishlist\Model\WishlistFactory::class)->create();
+		$data = [];
+		$customer = customer_session();
+		$request = class_manager()->get(\Magento\Framework\App\RequestInterface::class);
+
+		if ($customer->isLoggedIn()) {
+			$customer_id = $customer->getCustomer()->getId();
+			$wishlist = $wishlist->loadByCustomerId($customer_id, true);
+			$items = $wishlist->getItemCollection()->getData();
+
+			$store_code = $request->getParam('store', 'default');
+			$store = current_store($store_code);
+
+			foreach ($items as $item) {
+				$product = product_getter()->load($item['product_id']);
+				$data[] = [
+					'item_id' => $item['wishlist_item_id'],
+					'id' => $item['wishlist_id'],
+					'product' => [
+						'id' => $product->getId(),
+						'title' => spg($product, 'name'),
+						'short_title' => spg($product, 'short_name'),
+						'description' => spg($product, 'description'),
+						'price_mix' => config_price($product, $store['code']),
+						'short_description' => spg($product, 'short_description'),
+						'type' => spg($product, 'type_id'),
+						'review_mix' => review_mix($product),
+						'question_mix' => question_mix($product),
+						'sku' => spg($product, 'sku'),
+						'weight' => pf(spg($product, 'weight')),
+						'custom_lens_able' => (int) spg($product, 'addtional_type'),
+						'has_options' => spg($product, 'has_options'),
+						'meta_title' => spg($product, 'meta_title'),
+						'meta_keyword' => spg($product, 'meta_keyword'),
+						'meta_description' => spg($product, 'meta_description'),
+						'image' => spg($product, 'image', 'a', true),
+						'url_key' => spg($product, 'url_key'),
+						'material' => spg($product, 'material', 'b'),
+						'gender' => spg($product, 'gender', 'b'),
+						'shape' => spg($product, 'shape', 'b'),
+						'fit' => spg($product, 'fit', 'b'),
+						'rim' => spg($product, 'rim', 'b'),
+						'stripe_sub_interval' => spg($product, 'stripe_sub_interval'),
+						'stripe_sub_enabled' => spg($product, 'stripe_sub_enabled'),
+						'status' => spg($product, 'status'),
+						'ae_buy_one_get_one' => (int) spg($product, 'ae_buy_one_get_one'),
+						'visibility' => spg($product, 'visibility'),
+						'quantity' => config_qty($product),
+						'status' => spg($product, 'status'),
+						'scale_images' => [
+							spg($product, 'sd_180_1', 'a', true),
+							spg($product, 'sd_180_2', 'a', true),
+							spg($product, 'sd_180_3', 'a', true),
+							spg($product, 'sd_180_4', 'a', true),
+							spg($product, 'sd_180_5', 'a', true),
+							spg($product, 'sd_180_6', 'a', true),
+							spg($product, 'sd_180_7', 'a', true),
+							spg($product, 'sd_180_8', 'a', true),
+							spg($product, 'sd_180_9', 'a', true),
+							spg($product, 'sd_180_10', 'a', true),
+							spg($product, 'sd_180_11', 'a', true),
+						],
+						'gallery' => gallery($product)
+					]
+				];
+			}
+		}
+
+		return $data;
+	}
+}
+
+if (!function_exists('product_getter')) {
+	function product_getter()
+	{
+		return class_manager()->get(\Magento\Catalog\Model\ProductFactory::class)->create();
+	}
+}

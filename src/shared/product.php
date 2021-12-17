@@ -316,16 +316,25 @@ if (!function_exists('config_price')) {
     function config_price($product = null, $to = '')
     {
         // regular_price
+
         $regular_price_model = $product->getPriceInfo()->getPrice('regular_price');
         $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
         $regular_price = $regular_price_model->getValue();
-        return [
-            'min' => ts_price($regular_price_model->getMinRegularAmount()->getValue(), 'USD', $to),
-            'max' => ts_price($regular_price_model->getMaxRegularAmount()->getValue(), 'USD', $to),
-            'price' => ts_price($regular_price, 'USD', $to),
-            'final' => ts_price($final_price, 'USD', $to),
-            'percent' => $final_price / $regular_price
-        ];
+        if ($product->getTypeId() != 'configurable') {
+            return [
+                'price' => ts_price($regular_price, 'USD', $to),
+                'final' => ts_price($final_price, 'USD', $to),
+                'percent' => $final_price / $regular_price
+            ];
+        } else {
+            return [
+                'min' => ts_price($regular_price_model->getMinRegularAmount()->getValue(), 'USD', $to),
+                'max' => ts_price($regular_price_model->getMaxRegularAmount()->getValue(), 'USD', $to),
+                'price' => ts_price($regular_price, 'USD', $to),
+                'final' => ts_price($final_price, 'USD', $to),
+                'percent' => $final_price / $regular_price
+            ];
+        }
     }
 }
 
