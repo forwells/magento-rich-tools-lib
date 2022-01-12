@@ -368,7 +368,7 @@ if (!function_exists('pf')) {
     function pf($number = 0.00)
     {
         if ($number) {
-            $number = number_format($number, 2);
+            $number = number_format($number, 2, '.', '');
         }
         return $number;
     }
