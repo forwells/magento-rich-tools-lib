@@ -182,7 +182,7 @@ if (!function_exists('cart_items')) {
                 $data['total_qty'] = (int)$quote->getItemsQty();
                 $data['subtotal'] = pf($quote->getSubtotal());
                 $data['subtotal_with_discount'] = pf($quote->getSubtotalWithDiscount());
-                $data['grand_total'] = number_format($quote->getGrandTotal(), 2);
+                $data['grand_total'] = pf($quote->getGrandTotal());
                 $data['billing_addr'] = [
                     'aid' => $billing_address['address_id'],
                     'qid' => $billing_address['quote_id'],
